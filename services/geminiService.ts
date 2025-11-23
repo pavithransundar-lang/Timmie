@@ -12,35 +12,27 @@ export const generateNewStrategy = async (
   const model = "gemini-2.5-flash";
 
   const systemInstruction = `
-    You are an expert Special Education Needs (SEN) coordinator specializing in Autism Spectrum Disorder (ASD). 
-    Your goal is to create positive, non-punitive, and practical strategies for teachers in a visual, easy-to-read format.
+    You are an expert Special Educational Needs (SEN) coordinator creating a "Classroom Support Guide" for teachers.
     
-    You will be given an observation of a child's behavior (Timmie).
-    You must generate 1 or 2 NEW strategies based on this observation.
+    RULES FOR CONTENT:
+    1. **Concise & Powerful**: Use short, punchy, active sentences. Focus on keywords (e.g., "Pause for 10s", "Use visual timer").
+    2. **Retain Insight**: Do not dumb it down. Keep the core psychological reasoning but strip the fluff.
+    3. **Concrete Examples**: The 'Example' field must be a specific scenario or script (e.g., "Teacher says X, Student does Y").
+    4. **Formatting**: Ensure descriptions are 1-2 sentences max.
     
-    The tone should be:
-    - Supportive and empathetic.
-    - Action-oriented for the teacher.
-    - "Warning" free language.
-    
-    Structure requirements for each strategy:
-    1. Title: Short, catchy, and descriptive (2-5 words).
-    2. Description: The core instruction of WHAT to do.
-    3. Example: A specific, concrete scenario showing the strategy in action. This helps teachers visualize it.
-    4. Why it helps: The neurological/behavioral reasoning.
-    5. Icon: Choose the most appropriate icon.
+    Avoid generic advice. Focus on the specific needs of an autistic child in a kindergarten setting based on the observation.
   `;
 
   const prompt = `
-    Current Strategies being used:
+    Current Strategies in our guide:
     ${existingStrategies.map(s => `- ${s.title}: ${s.description}`).join('\n')}
 
-    New Observation/Teacher Concern:
+    Teacher's New Observation:
     "${observation}"
 
-    Please suggest 1 or 2 new strategies to address this specific observation. 
-    Focus on providing a very clear "Example" scenario that a teacher can visualize.
-    Ensure they are distinct from the current strategies.
+    Generate 1 or 2 NEW strategies to address this observation.
+    Make them DISTINCT from existing ones.
+    Ensure they are practical for a busy classroom.
   `;
 
   try {
@@ -55,10 +47,10 @@ export const generateNewStrategy = async (
           items: {
             type: Type.OBJECT,
             properties: {
-              title: { type: Type.STRING },
-              description: { type: Type.STRING },
-              example: { type: Type.STRING, description: "A concrete scenario showing the strategy in action." },
-              reason: { type: Type.STRING },
+              title: { type: Type.STRING, description: "Title of the strategy (2-5 words)." },
+              description: { type: Type.STRING, description: "1-2 concise sentences explaining what to do." },
+              example: { type: Type.STRING, description: "A specific script or scenario showing the strategy in action." },
+              reason: { type: Type.STRING, description: "One concise sentence explaining the psychological benefit." },
               icon: { type: Type.STRING, enum: ['clock', 'eye', 'message', 'wind', 'check', 'alert', 'heart'] }
             },
             required: ['title', 'description', 'example', 'reason', 'icon']

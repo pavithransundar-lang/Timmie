@@ -1,7 +1,7 @@
 import React from 'react';
 import { Strategy } from '../types';
 import { StrategyCard } from './StrategyCard';
-import { Printer, FileText } from 'lucide-react';
+import { Printer, FileText, CheckSquare, Bookmark } from 'lucide-react';
 
 interface DocumentPreviewProps {
   strategies: Strategy[];
@@ -15,64 +15,71 @@ export const DocumentPreview: React.FC<DocumentPreviewProps> = ({ strategies }) 
   return (
     <div className="flex flex-col h-full">
       <div className="mb-4 flex justify-between items-center no-print">
-        <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
-          <FileText className="text-teal-500" size={20} />
+        <h2 className="text-xl font-semibold text-slate-800 flex items-center gap-2">
+          <FileText className="text-teal-600" size={20} />
           Visual Guide Preview
         </h2>
         <button 
           onClick={handlePrint}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors shadow-md font-medium"
+          className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors shadow-sm font-medium"
         >
           <Printer size={16} />
           Print Guide
         </button>
       </div>
 
-      {/* A4 Simulation Container */}
-      <div className="bg-white shadow-xl mx-auto w-full max-w-[210mm] min-h-[297mm] p-8 md:p-12 relative print:shadow-none print:w-full print:max-w-none print:p-0 overflow-hidden">
+      {/* A4 Canvas */}
+      <div className="bg-white shadow-xl mx-auto w-full max-w-[210mm] min-h-[297mm] p-8 md:p-12 relative print:shadow-none print:w-full print:max-w-none print:p-0 overflow-hidden text-slate-900">
         
-        {/* Decorative Top Bar */}
-        <div className="absolute top-0 left-0 w-full h-3 bg-teal-500 print:block"></div>
-
-        {/* Document Header */}
-        <div className="border-b-2 border-slate-100 pb-6 mb-8 mt-4">
-          <div className="flex justify-between items-start">
-            <div className="space-y-2">
-              <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Classroom Support Guide</h1>
-              <div className="flex items-center gap-2">
-                <span className="text-xl text-slate-500 font-light">Student:</span>
-                <span className="text-xl font-bold text-teal-700 bg-teal-50 px-3 py-0.5 rounded-md">Timmie</span>
-              </div>
+        {/* Modern Header */}
+        <div className="flex items-end justify-between border-b-2 border-slate-900 pb-6 mb-8">
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="bg-slate-900 text-white text-xs font-bold px-2 py-1 uppercase tracking-widest rounded-sm">
+                Student Support Plan
+              </span>
             </div>
-            <div className="text-right">
-              <div className="inline-block bg-slate-900 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
-                Learning Support
-              </div>
-              <p className="text-xs text-gray-400 font-medium">Generated: {new Date().toLocaleDateString()}</p>
-            </div>
-          </div>
-          
-          <div className="mt-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-            <h3 className="text-blue-900 font-bold text-sm uppercase mb-1">Quick Reference</h3>
-            <p className="text-blue-800 text-sm leading-relaxed">
-              These strategies are designed to support self-regulation and independence. 
-              Please focus on <span className="font-semibold">visual aids</span> and <span className="font-semibold">clear prompts</span>.
+            <h1 className="text-4xl font-black text-slate-900 tracking-tight leading-none mb-1">
+              TIMMIE'S <span className="text-teal-600">STRATEGIES</span>
+            </h1>
+            <p className="text-slate-500 font-medium text-lg">
+              Practical strategies for regulation & engagement
             </p>
           </div>
+          <div className="hidden sm:block text-right opacity-50">
+             <Bookmark size={40} className="text-slate-300 ml-auto" />
+          </div>
         </div>
 
-        {/* Strategies List */}
-        <div className="flex flex-col gap-0">
-          {strategies.map((strategy, index) => (
-            <div key={strategy.id} className={index % 2 === 0 ? "bg-white" : "bg-white"}>
-              <StrategyCard strategy={strategy} variant="print" />
+        {/* Quick Reference Principles */}
+        <div className="grid grid-cols-2 gap-4 mb-8">
+           <div className="p-4 bg-slate-50 rounded-lg border border-slate-100">
+              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Goal</h4>
+              <p className="font-bold text-slate-800">Support independent regulation</p>
+           </div>
+           <div className="p-4 bg-teal-50 rounded-lg border border-teal-100">
+              <h4 className="text-xs font-bold text-teal-600 uppercase tracking-widest mb-1">Key Principle</h4>
+              <p className="font-bold text-teal-900">Pause. Observe. Guide.</p>
+           </div>
+        </div>
+
+        {/* Strategy List */}
+        <div className="flex flex-col gap-2">
+          {strategies.length > 0 ? (
+            strategies.map((strategy) => (
+              <StrategyCard key={strategy.id} strategy={strategy} variant="print" />
+            ))
+          ) : (
+            <div className="text-center py-20 text-slate-400 italic">
+              No strategies selected yet. Use the tool to generate some.
             </div>
-          ))}
+          )}
         </div>
 
-        {/* Document Footer */}
-        <div className="mt-auto pt-8 border-t border-gray-100 text-center text-[10px] text-gray-400 uppercase tracking-widest print:fixed print:bottom-8 print:left-0 print:w-full">
-          Confidential • Internal School Use Only • Learning Support Team
+        {/* Footer */}
+        <div className="mt-12 pt-6 border-t border-slate-200 flex justify-between items-center text-xs text-slate-400 font-medium print:fixed print:bottom-8 print:left-8 print:right-8 print:w-auto">
+          <span>Confidential Document</span>
+          <span>Generated by AI Support Assistant</span>
         </div>
       </div>
     </div>

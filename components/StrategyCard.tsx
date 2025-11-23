@@ -1,6 +1,6 @@
 import React from 'react';
 import { Strategy } from '../types';
-import { Clock, Eye, MessageSquare, Wind, CheckCircle, AlertCircle, Heart, Sparkles, Lightbulb } from 'lucide-react';
+import { Clock, Eye, MessageSquare, Wind, CheckCircle, AlertCircle, Heart, Lightbulb, User, Quote } from 'lucide-react';
 
 interface StrategyCardProps {
   strategy: Strategy;
@@ -18,91 +18,116 @@ const iconMap = {
   heart: Heart
 };
 
+const colorMap = {
+  clock: 'bg-blue-100 text-blue-700 border-blue-200',
+  eye: 'bg-purple-100 text-purple-700 border-purple-200',
+  message: 'bg-amber-100 text-amber-700 border-amber-200',
+  wind: 'bg-teal-100 text-teal-700 border-teal-200',
+  check: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+  alert: 'bg-rose-100 text-rose-700 border-rose-200',
+  heart: 'bg-pink-100 text-pink-700 border-pink-200'
+};
+
 export const StrategyCard: React.FC<StrategyCardProps> = ({ strategy, onRemove, variant = 'display' }) => {
   const Icon = iconMap[strategy.icon] || CheckCircle;
+  const themeClass = colorMap[strategy.icon] || colorMap.check;
 
+  // Print Version (Visual Poster Style)
   if (variant === 'print') {
     return (
-      <div className="flex gap-5 p-5 border-b border-gray-100 print-break-inside items-start">
-        <div className="flex-shrink-0 mt-1 p-2 bg-teal-50 rounded-lg text-teal-700">
-          <Icon className="w-6 h-6" />
+      <div className="flex flex-col sm:flex-row gap-5 p-5 border border-slate-200 rounded-xl mb-4 bg-white print-break-inside shadow-sm">
+        
+        {/* Left: Visual Anchor */}
+        <div className="flex sm:flex-col items-center sm:w-20 flex-shrink-0 gap-3 pt-1">
+          <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${themeClass}`}>
+            <Icon size={28} strokeWidth={2.5} />
+          </div>
         </div>
+
+        {/* Middle: Content */}
         <div className="flex-grow">
-          <h3 className="text-slate-900 font-bold text-lg mb-2">{strategy.title}</h3>
+          <h3 className="text-lg font-black text-slate-900 mb-1">{strategy.title}</h3>
           
           <div className="mb-3">
-            <span className="font-semibold text-slate-700 text-sm uppercase tracking-wide">Strategy:</span>
-            <p className="text-slate-800 text-base">{strategy.description}</p>
+            <p className="text-slate-900 text-[15px] font-semibold leading-snug">
+              {strategy.description}
+            </p>
           </div>
 
-          <div className="flex gap-4">
-            <div className="flex-1 bg-amber-50 p-3 rounded-lg border border-amber-100">
-               <div className="flex items-center gap-2 mb-1">
-                 <Lightbulb className="w-3 h-3 text-amber-600" />
-                 <span className="text-xs font-bold text-amber-700 uppercase">In Practice</span>
-               </div>
-               <p className="text-sm text-slate-800 italic">"{strategy.example}"</p>
-            </div>
-            
-            <div className="flex-1 bg-slate-50 p-3 rounded-lg border border-slate-100">
-               <div className="flex items-center gap-2 mb-1">
-                 <Sparkles className="w-3 h-3 text-indigo-500" />
-                 <span className="text-xs font-bold text-indigo-700 uppercase">Why it works</span>
-               </div>
-               <p className="text-sm text-slate-700">{strategy.reason}</p>
-            </div>
+          <div className="flex items-center gap-2 text-sm">
+             <span className="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide border border-slate-200">
+              Why
+            </span>
+            <span className="text-slate-600 font-medium">
+              {strategy.reason}
+            </span>
+          </div>
+        </div>
+
+        {/* Right: The Concrete Example */}
+        <div className="sm:w-1/3 flex-shrink-0 bg-slate-50 rounded-lg p-3 border-l-4 border-slate-300">
+          <div className="flex gap-2">
+            <Quote size={14} className="text-slate-300 flex-shrink-0 transform rotate-180 mt-1" />
+            <p className="text-sm text-slate-700 font-medium font-serif leading-relaxed italic">
+              {strategy.example}
+            </p>
           </div>
         </div>
       </div>
     );
   }
 
+  // Display / Edit Mode
   return (
-    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow relative group">
+    <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-200 hover:shadow-md transition-all relative group">
       {onRemove && (
         <button 
           onClick={() => onRemove(strategy.id)}
-          className="absolute top-2 right-2 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-2"
+          className="absolute top-4 right-4 text-slate-300 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-opacity p-1"
           aria-label="Remove strategy"
         >
           &times;
         </button>
       )}
       
-      <div className="flex items-center gap-3 mb-4">
-        <div className="p-2.5 bg-teal-100 text-teal-700 rounded-xl shadow-sm">
-          <Icon size={24} />
-        </div>
-        <h3 className="font-bold text-gray-900 text-xl leading-tight">{strategy.title}</h3>
-      </div>
-      
-      <p className="text-gray-700 mb-5 text-lg leading-relaxed border-b border-gray-100 pb-4">
-        {strategy.description}
-      </p>
-
-      <div className="space-y-3">
-        {/* Example Box */}
-        <div className="bg-amber-50 border border-amber-100 rounded-lg p-4 relative">
-          <div className="absolute -top-2.5 left-4 bg-white px-2 text-xs font-bold text-amber-600 uppercase tracking-wider border border-amber-100 rounded-full flex items-center gap-1">
-            <Lightbulb size={12} />
-            Try This
+      <div className="flex flex-col sm:flex-row gap-4">
+        {/* Icon Column */}
+        <div className="flex-shrink-0">
+          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${themeClass}`}>
+            <Icon size={20} strokeWidth={2.5} />
           </div>
-          <p className="text-slate-800 font-medium italic">
-            "{strategy.example}"
-          </p>
         </div>
 
-        {/* Reason Box */}
-        <div className="flex items-start gap-3 px-2 pt-2">
-           <div className="mt-1">
-              <Sparkles size={16} className="text-indigo-400" />
-           </div>
-           <div>
-             <span className="text-xs font-bold text-indigo-500 uppercase tracking-wide block mb-0.5">The Logic</span>
-             <p className="text-sm text-slate-500 leading-relaxed">
-               {strategy.reason}
-             </p>
-           </div>
+        <div className="flex-1 space-y-3">
+          {/* Header & Description */}
+          <div>
+            <h3 className="text-lg font-bold text-slate-900 mb-1">{strategy.title}</h3>
+            <p className="text-slate-800 font-semibold leading-snug">
+              {strategy.description}
+            </p>
+          </div>
+
+          {/* The "Example" Box */}
+          <div className="bg-slate-50 rounded-lg p-3 border-l-4 border-slate-300">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Example Scenario</span>
+            </div>
+            <div className="flex gap-2">
+              <p className="text-slate-700 text-sm italic font-medium">
+                "{strategy.example}"
+              </p>
+            </div>
+          </div>
+
+          {/* Insight Footer */}
+          <div className="flex items-start sm:items-center gap-2 pt-1">
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 uppercase tracking-wide flex-shrink-0 mt-0.5 sm:mt-0">
+              Insight
+            </span>
+            <span className="text-sm text-slate-500 font-medium leading-tight">
+              {strategy.reason}
+            </span>
+          </div>
         </div>
       </div>
     </div>

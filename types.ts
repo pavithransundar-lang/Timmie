@@ -15,42 +15,42 @@ export interface GenerationRequest {
 export const INITIAL_STRATEGIES: Strategy[] = [
   {
     id: '1',
-    title: 'Processing Time (8–10 seconds)',
-    description: 'Provide a short pause after instructions before expecting a response. Do not repeat the instruction immediately.',
-    example: 'Teacher says: "Timmie, put your bag away." ... (Wait 8 seconds) ... Timmie stands up and moves to the cubby.',
-    reason: 'Supports his verbal processing and leads to independent follow-through.',
+    title: 'Processing Time (8-10s)',
+    description: 'Pause for 8–10 seconds after giving an instruction. Allow him to process fully before repeating yourself.',
+    example: 'Teacher says: "Timmie, put your bag away." → Teacher counts to 10 mentally while looking busy. → Timmie processes and moves.',
+    reason: 'Supports verbal processing speed; prevents pressure-induced shutdown.',
     icon: 'clock'
   },
   {
     id: '2',
     title: 'Visual Timer for Transitions',
-    description: 'Use a visible timer (e.g., Sand Timer or Time Timer app) during activity shifts or cool-down periods.',
-    example: 'Place a large 5-minute sand timer on the desk 5 minutes before tidy-up time starts.',
-    reason: 'Gives clarity and structure during shifts between activities, reducing anxiety.',
+    description: 'Use a sand timer or visual clock to show remaining time. Visualizes the end of an activity before the transition occurs.',
+    example: 'Before the "Tidy Up" song, place a 5-minute sand timer on his desk and say, "5 minutes, then carpet."',
+    reason: 'Reduces anxiety by making abstract time concrete and predictable.',
     icon: 'eye'
   },
   {
     id: '3',
-    title: 'Clear, One-Step Instructions',
-    description: 'Keep directions short and direct. Avoid chaining multiple requests together.',
-    example: 'Instead of "Go get your bag and sit on the carpet," say "Get your bag." (Wait for action). Then say, "Sit on the carpet."',
-    reason: 'Reduces cognitive load and avoids confusion from multi-step commands.',
+    title: 'One-Step Instructions',
+    description: 'Give one instruction at a time. Wait for him to complete the first task before giving the next.',
+    example: 'Incorrect: "Put your bag away and sit on the carpet." \nCorrect: "Put your bag away." (Wait for action). "Now, sit on the carpet."',
+    reason: 'Reduces cognitive load and avoids working memory overload.',
     icon: 'check'
   },
   {
     id: '4',
-    title: 'Allowing a Brief Observational Pause',
-    description: 'Allow him to watch peers first to understand the social expectation, then join independently.',
-    example: 'During circle time, let Timmie stand at the edge and watch for 30 seconds before inviting him to sit.',
-    reason: 'Supports his natural way of understanding sequence and reduces social pressure.',
+    title: 'Observational Pause',
+    description: 'Allow him to observe from the periphery first. Let him watch peers engaged in the activity before asking him to join.',
+    example: 'During circle time, let him stand by the bookshelf watching the song for 30 seconds before inviting him to sit.',
+    reason: 'Lowers demand for immediate participation; allows him to map the social sequence.',
     icon: 'message'
   },
   {
     id: '5',
-    title: 'Calm, Low-Stimulation Approach',
-    description: 'Use a calm, flat tone and avoid rushing him, especially during down times or when he appears tired.',
-    example: 'If he is lying on the floor, sit nearby quietly rather than standing over him and urging him to get up.',
-    reason: 'Keeps him regulated and makes it easier for him to stay engaged.',
+    title: 'Low-Stimulation Approach',
+    description: 'Use a calm, flat vocal tone and slow movements when he is dysregulated. Avoid rushing or raising your voice.',
+    example: 'If he refuses to move, sit quietly nearby (side-on, not facing direct) without speaking for a minute.',
+    reason: 'Reduces sensory input to prevent escalation during overwhelm.',
     icon: 'wind'
   }
 ];
